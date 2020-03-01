@@ -11,13 +11,14 @@ def drawCircle(dr, degree):
     dr.pieslice([(0,0), SIZE], degree-90, 270, fill=COLOR2)
 
 def makePics():
-    atlas = Image.new('RGBA', (SIZE[0]*FRAMES, SIZE[1]))
+    atlas = Image.new('RGBA', (SIZE[0]*FRAMES + (FRAMES-1)*2, SIZE[1]))
     for i in range(FRAMES):
         pic = Image.new("RGBA", SIZE)
         draw = ImageDraw.Draw(pic)
         drawCircle(draw, 360/FRAMES*i)
         pic.save(OUTPUT_FOLDER+'/{}.png'.format(i),'PNG')
-        atlas.paste(pic, (SIZE[0]*i, 0, SIZE[0]*(i+1), SIZE[1]))
+        startPosition = SIZE[0]*i + i*2
+        atlas.paste(pic, (startPosition, 0, startPosition+SIZE[0], SIZE[1]))
     atlas.save(OUTPUT_FOLDER+'/atlas.png', 'PNG')
 
 makePics()
